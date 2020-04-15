@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.function.Function;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.function.context.FunctionRegistration;
 import org.springframework.cloud.function.context.FunctionType;
@@ -17,7 +19,34 @@ public class DemoApplication implements ApplicationContextInitializer<GenericApp
 	@Override
 	public void initialize(GenericApplicationContext context) {
 		context.registerBean("foobar", FunctionRegistration.class,
-				() -> new FunctionRegistration<>(new Foobar()).type(FunctionType.from(String.class).to(String.class)));
+				() -> new FunctionRegistration<>(new Foobar()).type(FunctionType.from(Foo.class).to(Foo.class)));
 	}
 
+}
+
+class Foo {
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Foo(String name) {
+		this.name = name;
+	}
+
+	Foo() {}
+}
+
+class Foobar implements Function<Foo, Foo> {
+
+    @Override
+    public Foo apply(Foo input) {
+        System.err.println("HI: " + input.getName());
+        return new Foo("hi " + input + "!");
+    }
 }

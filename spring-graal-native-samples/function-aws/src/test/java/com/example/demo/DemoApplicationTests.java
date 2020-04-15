@@ -32,10 +32,10 @@ public class DemoApplicationTests {
 	@Test
 	public void contextLoads() throws Exception {
         WebClient client = builder.baseUrl("http://localhost:" + port).build();
-        client.post().uri("/add").bodyValue("Fred").exchange().block();
+        client.post().uri("/add").bodyValue("{\"name\":\"Fred\"}").exchange().block();
         Thread.sleep(100L);
         String response = client.get().uri("/take").exchange().block().bodyToMono(String.class).block();
-        assertThat(response).isEqualTo("hi Fred!");
+        assertThat(response).isEqualTo("{\"name\":\"hi Fred!\"}");
     }
 
     @AfterAll
