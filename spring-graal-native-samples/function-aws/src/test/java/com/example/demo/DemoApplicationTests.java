@@ -1,12 +1,10 @@
 package com.example.demo;
 
-import static org.assertj.core.api.Assertions.*;
-
 import com.example.test.TestServer;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +12,8 @@ import org.springframework.cloud.function.context.test.FunctionalSpringBootTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.SocketUtils;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @FunctionalSpringBootTest({"spring.cloud.function.web.export.source.url=http://localhost:${export.port}/home",
     "spring.cloud.function.web.export.sink.url=http://localhost:${export.port}/echo",
@@ -32,10 +32,10 @@ public class DemoApplicationTests {
 	@Test
 	public void contextLoads() throws Exception {
         WebClient client = builder.baseUrl("http://localhost:" + port).build();
-        client.post().uri("/add").bodyValue("Fred").exchange().block();
-        Thread.sleep(100L);
+        client.post().uri("/add").bodyValue("{\"name\":\"Fred\"}").exchange().block();
+        Thread.sleep(200L);
         String response = client.get().uri("/take").exchange().block().bodyToMono(String.class).block();
-        assertThat(response).isEqualTo("hi Fred!");
+        assertThat(response).isEqualTo("{\"name\":\"hi Fred!\"}");
     }
 
     @AfterAll

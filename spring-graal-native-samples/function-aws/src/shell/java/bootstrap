@@ -3,5 +3,5 @@
 cd ${LAMBDA_TASK_ROOT:-.}
 
 java -Dspring.main.web-application-type=none \
-  -noverify -XX:TieredStopAtLevel=1 -Xss256K -XX:MaxMetaspaceSize=128M \
+  -noverify -XX:TieredStopAtLevel=1 -Xss256K -XX:MaxMetaspaceSize=48M -Xmx8m \
   -cp .:`echo lib/*.jar | tr ' ' :` com.example.demo.DemoApplication

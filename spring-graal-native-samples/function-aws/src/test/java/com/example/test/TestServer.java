@@ -35,7 +35,7 @@ public class TestServer {
     public Function<String, String> echo() {
         return input -> {
             response = input;
-            return "Echo: " + input;
+            return "Echo: " + response;
         };
     }
 
