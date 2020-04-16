@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.test.TestServer;
 
@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.function.context.test.FunctionalSpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.SocketUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@FunctionalSpringBootTest({"spring.cloud.function.web.export.source.url=http://localhost:${export.port}/home",
+@SpringBootTest({"spring.cloud.function.web.export.source.url=http://localhost:${export.port}/home",
     "spring.cloud.function.web.export.sink.url=http://localhost:${export.port}/echo",
     "logging.level.reactor=OFF",
     "logging.level.io.netty=OFF"})

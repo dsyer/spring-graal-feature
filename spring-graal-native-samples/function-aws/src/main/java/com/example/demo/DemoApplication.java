@@ -2,24 +2,20 @@ package com.example.demo;
 
 import java.util.function.Function;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.function.context.FunctionRegistration;
-import org.springframework.cloud.function.context.FunctionType;
-import org.springframework.cloud.function.context.FunctionalSpringApplication;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication(proxyBeanMethods = false)
-public class DemoApplication implements ApplicationContextInitializer<GenericApplicationContext> {
+public class DemoApplication {
 
 	public static void main(String[] args) {
-		FunctionalSpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@Override
-	public void initialize(GenericApplicationContext context) {
-		context.registerBean("foobar", FunctionRegistration.class,
-				() -> new FunctionRegistration<>(new Foobar()).type(FunctionType.from(Foo.class).to(Foo.class)));
+	@Bean
+	public Foobar foobar() {
+		return new Foobar();
 	}
 
 }
