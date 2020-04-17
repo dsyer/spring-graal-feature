@@ -43,6 +43,6 @@ class Foobar implements Function<Foo, Foo> {
     @Override
     public Foo apply(Foo input) {
         System.err.println("HI: " + input.getName());
-        return new Foo("hi " + input + "!");
+        return new Foo("hi " + input.getName() + "!");
     }
 }

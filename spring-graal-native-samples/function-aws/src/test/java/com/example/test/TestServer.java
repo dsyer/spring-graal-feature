@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.function.json.JsonMapper;
 import org.springframework.context.annotation.Bean;
 
 import reactor.core.publisher.Mono;
@@ -32,10 +33,10 @@ public class TestServer {
     }
 
     @Bean
-    public Function<String, String> echo() {
+    public Function<Foo, String> echo(JsonMapper mapper) {
         return input -> {
-            response = input;
-            return "Echo: " + input;
+            response = new String(mapper.toJson(input));
+            return "Echo: " + response;
         };
     }
 
@@ -54,4 +55,22 @@ public class TestServer {
         return () -> response;
     }
 
+}
+
+class Foo {
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Foo(String name) {
+		this.name = name;
+	}
+
+	Foo() {}
 }
