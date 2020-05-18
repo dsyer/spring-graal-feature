@@ -31,13 +31,17 @@ echo "Compiling $ARTIFACT with $GRAALVM_VERSION"
   --no-server \
   --no-fallback \
   -H:Name=$ARTIFACT \
+  -H:+TraceClassInitialization \
   -H:+ReportExceptionStackTraces \
-  -H:+RemoveSaturatedTypeFlows \
+  -Dspring.native.remove-yaml-support=true \
   -Dspring.native.remove-unused-autoconfig=true \
   -Dspring.native.remove-yaml-support=true \
   -Dspring.native.remove-jmx-support=true \
   -Dspring.native.remove-spel-support=true \
   -Ddebug=true \
+  --initialize-at-build-time=javax.el.ListELResolver,javax.el.BeanELResolver,javax.el.MapELResolver,javax.el.CompositeELResolver \
+  --initialize-at-build-time=org.springframework.http.converter.FormHttpMessageConverter \
+  --initialize-at-build-time=org.springframework.http.MediaType \
   -cp $CP $MAINCLASS >> output.txt ; } 2>> output.txt
 
 if [[ -f $ARTIFACT ]]
