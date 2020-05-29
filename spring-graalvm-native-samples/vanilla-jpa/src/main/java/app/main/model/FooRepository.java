@@ -15,11 +15,15 @@
  */
 package app.main.model;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 
 /**
  * @author Dave Syer
  *
  */
-public interface FooRepository extends JpaRepository<Foo, Long> {
+public interface FooRepository extends Repository<Foo, Long> {
+    Foo findById(@Param("id") Long id) throws DataAccessException;
+    void save(Foo owner) throws DataAccessException;
 }

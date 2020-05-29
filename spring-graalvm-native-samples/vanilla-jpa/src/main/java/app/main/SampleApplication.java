@@ -32,11 +32,9 @@ public class SampleApplication {
 		return args -> {
 			try {
 				System.err.println("****");
-				Optional<Foo> foo = entities.findById(1L);
+				Foo foo = entities.findById(1L);
 				System.err.println("****: " + foo);
-				if (!foo.isPresent()) {
-					entities.save(new Foo("Hello"));
-				}
+				entities.save(new Foo("Hello"));
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -53,7 +51,7 @@ public class SampleApplication {
 
 	private Foo findOne() {
 		try {
-			return entities.findById(1L).get();
+			return entities.findById(1L);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
