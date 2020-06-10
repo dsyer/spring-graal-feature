@@ -1,4 +1,6 @@
-FROM ubuntu:focal
+FROM springci/gdb as tools
+
+FROM ubuntu:focal as graalvm
 
 ARG JVMCI_URL
 ARG GRAALVM_BRANCH
@@ -31,4 +33,5 @@ RUN apt-get -y update \
 
 RUN mkdir /opt/java
 
-COPY --from=0 /opt/graal/vm/latest_graalvm_home/. /opt/java/
+COPY --from=tools /usr/bin/gdb /usr/bin
+COPY --from=graalvm /opt/graal/vm/latest_graalvm_home/. /opt/java/

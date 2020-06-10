@@ -23,6 +23,10 @@ cp -R META-INF BOOT-INF/classes
 
 LIBPATH=`find BOOT-INF/lib | tr '\n' ':'`
 CP=BOOT-INF/classes:$LIBPATH
+if [ "$1" == "-d" ]; then
+  DEBUG_FLAGS="-H:GenerateDebugInfo=1 -H:DebugInfoSourceSearchPath=../../src/main/java -H:DebugInfoSourceSearchPath=$JAVA_HOME/src.zip"
+  shift
+fi
 
 GRAALVM_VERSION=`native-image --version`
 echo "Compiling $ARTIFACT with $GRAALVM_VERSION"
@@ -30,6 +34,8 @@ echo "Compiling $ARTIFACT with $GRAALVM_VERSION"
   --verbose \
   -H:Name=$ARTIFACT \
   -H:+RemoveSaturatedTypeFlows \
+  --verbose $DEBUG_FLAGS \
+  -Dspring.native.remove-unused-autoconfig=true \
   -Dspring.native.remove-yaml-support=true \
   -Dspring.native.remove-jmx-support=true \
   -Dspring.spel.ignore=true \
