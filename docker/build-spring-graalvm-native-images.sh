@@ -3,7 +3,6 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 echo $DIR
 
-
 docker build \
   --build-arg BASE_IMAGE=springci/graalvm-ce:20.1-dev-java8 \
   -t springci/spring-graalvm-native:20.1-dev-java8 - < $DIR/Dockerfile.spring-graalvm-native

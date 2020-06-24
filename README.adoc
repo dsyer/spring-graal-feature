@@ -79,15 +79,30 @@ In order to allow easily reproducible builds of `spring-graalvm-native`, dedicat
 - https://github.com/spring-projects-experimental/spring-graalvm-native/blob/master/docker/Dockerfile.spring-graalvm-native[`spring-graalvm-native`]: base image with `graalvm-ce` + utilities required to build the project, available from https://hub.docker.com/r/springci/spring-graalvm-native/tags[Docker hub] or locally via `docker/build-spring-graalvm-native-images.sh`.
 - https://github.com/spring-projects-experimental/spring-graalvm-native/blob/master/docker/Dockerfile.spring-graalvm-native-dev[`spring-graalvm-native-dev`]: local image built via `docker/build-dev-images.sh` designed to share the same user between the host and the container
 
-To use it:
+To use the docker images you can run VSCode with the https://code.visualstudio.com/docs/remote/containers[remote container extension], or you can run a script that will drop you into a shell in a container (`run-dev-container.sh`). In either case you will need the Docker CLI:
 
 - https://docs.docker.com/engine/install/[Install Docker].
 - https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user[Configure it to allow non-root user] if you are on Linux.
+
+
+=== VSCode Remote Containers
+
+Here's how it works:
+
+- Open one of the samples in VSCode, e.g. `code spring-graalvm-native-samples/actuator-webflux/`
+- Install the remote container extension, if you haven't already
+- `Ctrl-Shift-P` and select "Remote Containers: Reopen in Container"
+- Wait for the container to build and when it is ready it will pop up a terminal where you can run `mvn`, `java`, `build.sh` etc.
+
+Changes you make in the source code will be reflected immediately in the host, and the container has been configured to share the Maven cache with the host, so builds should be fast.
+
+=== `run-dev-container.sh`
+
+To use the command line script instead of VSCode:
+
 - Run `run-dev-container.sh` to run the Docker container with an interactive shell suitable to run `spring-graalvm-native` build scripts (see bellow for more documentation).
 - The first time, it will download remote based images built by the https://ci.spring.io/teams/spring-graalvm-native/pipelines/spring-graalvm-native?group=Daily%20builds[CI].
 - The current and the Maven home directories are shared between the host (where is typically the IDE) and the container (where you can run builds).
-
-=== `run-dev-container.sh`
 
 `run-dev-container.sh` runs Spring GraalVM native dev container with an interactive shell.
 
@@ -107,7 +122,7 @@ options:
 
 - Import the root project in your IDE.
 - Eventually import the sample you are working on as a distinct project in your IDE.
-- Run `run-dev-container.sh` to run the Docker container with an interactive shell.
+- Reopen in Container or run `run-dev-container.sh` to run the Docker container with an interactive shell.
 - Run the root project `build.sh` (from the host or the container) if you have made modification to the feature, substitutions or configuration modules.
 - Run `build.sh` of the sample you are working on from the container.
 
