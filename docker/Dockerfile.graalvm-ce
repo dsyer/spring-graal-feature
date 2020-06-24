@@ -28,7 +28,7 @@ ENV JAVA_HOME=/opt/java
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
 RUN apt-get -y update \
- && apt-get -y install build-essential zlib1g-dev \
+ && apt-get -y install build-essential zlib1g-dev vim \
  && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /opt/java
