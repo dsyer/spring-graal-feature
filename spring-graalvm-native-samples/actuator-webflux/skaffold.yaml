@@ -1,0 +1,26 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+build:
+  artifacts:
+    - image: localhost:5000/apps/demo
+      buildpacks:
+        builder: gcr.io/paketo-buildpacks/builder:base-platform-api-0.3
+        env:
+          - BP_BOOT_NATIVE_IMAGE=1
+        dependencies:
+          paths:
+            - pom.xml
+            - src/main/resources
+            - target/classes
+      sync:
+        manual:
+          - src: "src/main/resources/**/*"
+            dest: /workspace/BOOT-INF/classes
+            strip: src/main/resources/
+          - src: "target/classes/**/*"
+            dest: /workspace/BOOT-INF/classes
+            strip: target/classes/
+deploy:
+  kustomize:
+    paths:
+      - "src/k8s/demo/"
