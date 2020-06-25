@@ -92,9 +92,13 @@ Here's how it works:
 - Open one of the samples in VSCode, e.g. `code spring-graalvm-native-samples/actuator-webflux/`
 - Install the remote container extension, if you haven't already
 - `Ctrl-Shift-P` and select "Remote Containers: Reopen in Container"
-- Wait for the container to build and when it is ready it will pop up a terminal where you can run `mvn`, `java`, `build.sh` etc.
+- Wait for the container to build and when it is ready it will pop up a terminal where you can run `mvn`, `java`, `build.sh` etc. The container image is cached, so next time you open the same sample it will be re-used.
+- Edit the code and run it in VSCode as per a normal Java application
+- If you want to connect to the running app (e.g. with a browser) VSCode will detect that the container is listening on a port and offer to forward it for you in the "Remote Explorer" view.
 
-Changes you make in the source code will be reflected immediately in the host, and the container has been configured to share the Maven cache with the host, so builds should be fast.
+Changes you make in the source code will be reflected immediately in the host, and the container has been configured to share the Maven cache with the host, so builds should be fast. The container will be started running as a user with the same user id and group id as the host, so all file permissions will be preserved.
+
+In the remote container you can debug Java code in the normal way with full access to the stack. You can also stop at breakpoints in the Java code when running the native image. Use the `-d` switch on the `compile.sh` script to generate debug information in the native image and launch it using the https://code.visualstudio.com/docs/languages/cpp[`C++` extension]. The GraalVM team is still working on the debugging features, so not everything is available yet (e.g. no variables).
 
 === `run-dev-container.sh`
 
