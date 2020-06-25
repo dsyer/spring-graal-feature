@@ -23,11 +23,16 @@ cp -R META-INF BOOT-INF/classes
 
 LIBPATH=`find BOOT-INF/lib | tr '\n' ':'`
 CP=BOOT-INF/classes:$LIBPATH
+if [ "$1" == "-d" ]; then
+  DEBUG_FLAGS="-H:GenerateDebugInfo=1"
+  shift
+fi
+
 
 GRAALVM_VERSION=`native-image --version`
 echo "Compiling $ARTIFACT with $GRAALVM_VERSION"
 { time native-image \
-  --verbose \
+  --verbose $DEBUG_FLAGS \
   -H:Name=$ARTIFACT \
   -Dspring.xml.ignore=true \
   -Dspring.native.remove-jmx-support=true \

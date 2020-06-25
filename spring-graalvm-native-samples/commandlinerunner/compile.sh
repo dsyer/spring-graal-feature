@@ -24,7 +24,7 @@ cp -R META-INF BOOT-INF/classes
 LIBPATH=`find BOOT-INF/lib | tr '\n' ':'`
 CP=BOOT-INF/classes:$LIBPATH
 if [ "$1" == "-d" ]; then
-  DEBUG_FLAGS="-H:GenerateDebugInfo=1 -H:DebugInfoSourceSearchPath=../../src/main/java -H:DebugInfoSourceSearchPath=$JAVA_HOME/src.zip"
+  DEBUG_FLAGS="-H:GenerateDebugInfo=1"
   shift
 fi
 
